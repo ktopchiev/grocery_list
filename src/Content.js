@@ -1,16 +1,21 @@
+import { useState } from "react";
+
 const Content = () => {
+
+    const [name, setName] = useState('Karol');
+
     const handleNameChange = () => {
         const names = ['Karol', 'Petar', 'Michael'];
         const int = Math.floor(Math.random() * 3);
-        return names[int];
+        setName(names[int]);
       }
 
     const handleClick = () => {
         console.log('You clicked it')
     }
     
-    const handleClick2 = (name) => {
-        console.log(`${name} was clicked`)
+    const handleClick2 = (n) => {
+        console.log(`${n} was clicked`)
     }
     
     const handleClick3 = (e) => {
@@ -21,9 +26,9 @@ const Content = () => {
         <main>
             <p>
                 {/* We can use expression like arrow function to show some results */}
-                Hello {handleNameChange()}!
+                Hello {name}!
             </p>
-            <button onClick={handleClick}>Click it</button>
+            <button onClick={handleNameChange}>Change name</button>
             <button onClick={() => handleClick2('Dave')}>Click it</button>
             <button onClick={(e) => handleClick3(e)}>Click it</button>
         </main>
