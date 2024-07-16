@@ -1,4 +1,4 @@
-const Header = ({title}) => {
+const Header = ({ title }) => {
 
     return (
         <header>
