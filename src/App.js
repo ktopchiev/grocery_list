@@ -17,7 +17,7 @@ function App() {
     localStorage.setItem('shoppingList', JSON.stringify(items));
   }, [items])
 
-  //Adding new item to list of items
+  //Adding new item to the list of items
   const addItem = (item) => {
     const id = items.length ? items[items.length - 1].id + 1 : 1;
     const myNewItem = { id, checked: false, item };
