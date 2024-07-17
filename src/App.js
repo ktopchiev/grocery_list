@@ -83,7 +83,7 @@ function App() {
         setSearch={setSearch}
       />
       <main>
-        {isLoading && <p>Loading data...</p>}
+        {isLoading && <p>Loading items...</p>}
         {fetchError && <p style={{ color: "red" }}>{ `Error: ${fetchError}` }</p>}
         {!fetchError && !isLoading &&
           <Content
