@@ -14,6 +14,7 @@ function App() {
   const [newItem, setNewItem] = useState('');
   const [search, setSearch] = useState('');
   const [fetchError, setFetchError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   //If you’re not trying to synchronize with some external system, you probably don’t need an Effect.
   //To connect your component to some external system, call useEffect at the top level of your component.
@@ -30,10 +31,15 @@ function App() {
       } catch (err) {
         console.log(err.message);
         setFetchError(err.message);
+      } finally {
+        setIsLoading(false);
       }
     }
-
-    (async () => await fetchItems())();
+    
+    //Simulates if our app is waiting for loading the data
+    setTimeout(() => {
+      (async () => await fetchItems())();
+    }, 2000);
   }, [])
 
   //Adding new item to the list of items
@@ -77,8 +83,9 @@ function App() {
         setSearch={setSearch}
       />
       <main>
+        {isLoading && <p>Loading data...</p>}
         {fetchError && <p style={{ color: "red" }}>{ `Error: ${fetchError}` }</p>}
-        {!fetchError &&
+        {!fetchError && !isLoading &&
           <Content
             items={items.filter(item => ((item.item).toLowerCase()).includes(search.toLowerCase()))}
             handleCheck={handleCheck}
