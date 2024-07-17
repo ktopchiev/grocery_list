@@ -6,16 +6,35 @@ import Footer from './Footer';
 import { useState, useEffect } from "react";
 
 function App() {
+  const API_URL = 'http://localhost:3500/items';
 
-  const [items, setItems] = useState(JSON.parse(localStorage.getItem('shoppingList')) || []);
+  //The state that we initially load the project
+  const [items, setItems] = useState([]);
+
   const [newItem, setNewItem] = useState('');
   const [search, setSearch] = useState('');
+  const [fetchError, setFetchError] = useState(null);
 
   //If you’re not trying to synchronize with some external system, you probably don’t need an Effect.
   //To connect your component to some external system, call useEffect at the top level of your component.
   useEffect(() => {
-    localStorage.setItem('shoppingList', JSON.stringify(items));
-  }, [items])
+    
+    const fetchItems = async () => {
+      try {
+        const response = await fetch(API_URL);
+        if (!response.ok) throw Error('Did not received expect data');
+        const listItems = await response.json();
+        console.log(listItems)
+        setItems(listItems);
+        setFetchError(null);
+      } catch (err) {
+        console.log(err.message);
+        setFetchError(err.message);
+      }
+    }
+
+    (async () => await fetchItems())();
+  }, [])
 
   //Adding new item to the list of items
   const addItem = (item) => {
@@ -57,11 +76,15 @@ function App() {
         search={search}
         setSearch={setSearch}
       />
-      <Content
-        items={items.filter(item => ((item.item).toLowerCase()).includes(search.toLowerCase()))}
-        handleCheck={handleCheck}
-        handleDelete={handleDelete}
-      />
+      <main>
+        {fetchError && <p style={{ color: "red" }}>{ `Error: ${fetchError}` }</p>}
+        {!fetchError &&
+          <Content
+            items={items.filter(item => ((item.item).toLowerCase()).includes(search.toLowerCase()))}
+            handleCheck={handleCheck}
+            handleDelete={handleDelete}
+          />}
+      </main>
       <Footer
         length={items.length}
       />
