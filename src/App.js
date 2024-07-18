@@ -4,6 +4,7 @@ import AddItem from './AddItem';
 import Content from './Content';
 import Footer from './Footer';
 import { useState, useEffect } from "react";
+import apiRequest from './apiRequest';
 
 function App() {
   const API_URL = 'http://localhost:3500/items';
@@ -18,14 +19,13 @@ function App() {
 
   //If you’re not trying to synchronize with some external system, you probably don’t need an Effect.
   //To connect your component to some external system, call useEffect at the top level of your component.
-  useEffect(() => {
+   useEffect(() => {
     
     const fetchItems = async () => {
       try {
         const response = await fetch(API_URL);
         if (!response.ok) throw Error('Did not received expect data');
         const listItems = await response.json();
-        console.log(listItems)
         setItems(listItems);
         setFetchError(null);
       } catch (err) {
@@ -35,19 +35,27 @@ function App() {
         setIsLoading(false);
       }
     }
-    
-    //Simulates if our app is waiting for loading the data
-    setTimeout(() => {
-      (async () => await fetchItems())();
-    }, 2000);
-  }, [])
+  
+    (async () => await fetchItems())();
+   }, [])
 
   //Adding new item to the list of items
-  const addItem = (item) => {
+  const addItem = async (item) => {
     const id = items.length ? items[items.length - 1].id + 1 : 1;
     const myNewItem = { id, checked: false, item };
     const listItems = [...items, myNewItem];
     setItems(listItems);
+
+    const postOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(myNewItem)
+    }
+
+    const result = await apiRequest(API_URL, postOptions);
+    if (result) setFetchError(result);
   }
 
   //If some of the items is checked, this will change the checked property of the object, according to users action
