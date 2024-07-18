@@ -41,6 +41,7 @@ function App() {
 
   //Adding new item to the list of items
   const addItem = async (item) => {
+    //JSON Server does not work with integer values anymore, for incrementation we need to parse them
     const lastItemId = parseInt(items[items.length - 1].id);
     const id = (items.length ? lastItemId + 1 : 1).toString();
     const myNewItem = { id, checked: false, item };
