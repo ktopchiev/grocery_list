@@ -11,11 +11,6 @@
       "item": "Pizza"
     },
     {
-      "id": "3",
-      "checked": true,
-      "item": "Bread"
-    },
-    {
       "id": "4",
       "checked": false,
       "item": "Milk"
@@ -24,11 +19,6 @@
       "id": "5",
       "checked": false,
       "item": "Cocoa"
-    },
-    {
-      "id": "6",
-      "checked": true,
-      "item": "Papaya"
     }
   ]
 }

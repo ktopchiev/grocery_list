@@ -72,16 +72,22 @@ function App() {
       },
       body: JSON.stringify({ checked: myItem[0].checked })
     };
-    
+
     const reqUrl = `${API_URL}/${id}`;
     const result = await apiRequest(reqUrl, changeOptions);
     if (result) setFetchError(result);
   }
 
   //Delete an item from the items list
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     const listItems = items.filter((item) => item.id !== id);
     setItems(listItems);
+
+    const deleteOptions = { method: 'DELETE' }
+
+    const reqUrl = `${API_URL}/${id}`;
+    const result = await apiRequest(reqUrl, deleteOptions);
+    if (result) setFetchError(result);
   }
 
   //Submit the additions through the form
