@@ -3,27 +3,32 @@
     {
       "id": "1",
       "checked": false,
-      "item": "Aldmonds"
+      "item": "Almonds"
     },
     {
       "id": "2",
-      "checked": false,
+      "checked": true,
       "item": "Pizza"
     },
     {
       "id": "3",
-      "checked": false,
+      "checked": true,
       "item": "Bread"
     },
     {
-      "id": 4,
+      "id": "4",
       "checked": false,
       "item": "Milk"
     },
     {
-      "id": 5,
+      "id": "5",
       "checked": false,
       "item": "Cocoa"
+    },
+    {
+      "id": "6",
+      "checked": true,
+      "item": "Papaya"
     }
   ]
 }

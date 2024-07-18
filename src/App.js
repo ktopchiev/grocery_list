@@ -19,8 +19,8 @@ function App() {
 
   //If you’re not trying to synchronize with some external system, you probably don’t need an Effect.
   //To connect your component to some external system, call useEffect at the top level of your component.
-   useEffect(() => {
-    
+  useEffect(() => {
+
     const fetchItems = async () => {
       try {
         const response = await fetch(API_URL);
@@ -35,13 +35,13 @@ function App() {
         setIsLoading(false);
       }
     }
-  
+
     (async () => await fetchItems())();
-   }, [])
+  }, [])
 
   //Adding new item to the list of items
   const addItem = async (item) => {
-    const id = items.length ? items[items.length - 1].id + 1 : 1;
+    const id = (items.length ? items[items.length - 1].id + 1 : 1).toString();
     const myNewItem = { id, checked: false, item };
     const listItems = [...items, myNewItem];
     setItems(listItems);
@@ -59,9 +59,23 @@ function App() {
   }
 
   //If some of the items is checked, this will change the checked property of the object, according to users action
-  const handleCheck = (id) => {
+  const handleCheck = async (id) => {
     const listItems = items.map((item) => item.id === id ? { ...item, checked: !item.checked } : item);
     setItems(listItems);
+
+    const myItem = listItems.filter((item) => item.id === id);
+
+    const changeOptions = {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ checked: myItem[0].checked })
+    };
+    
+    const reqUrl = `${API_URL}/${id}`;
+    const result = await apiRequest(reqUrl, changeOptions);
+    if (result) setFetchError(result);
   }
 
   //Delete an item from the items list
@@ -92,7 +106,7 @@ function App() {
       />
       <main>
         {isLoading && <p>Loading items...</p>}
-        {fetchError && <p style={{ color: "red" }}>{ `Error: ${fetchError}` }</p>}
+        {fetchError && <p style={{ color: "red" }}>{`Error: ${fetchError}`}</p>}
         {!fetchError && !isLoading &&
           <Content
             items={items.filter(item => ((item.item).toLowerCase()).includes(search.toLowerCase()))}
