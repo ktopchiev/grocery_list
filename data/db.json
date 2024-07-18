@@ -19,6 +19,16 @@
       "id": "5",
       "checked": false,
       "item": "Cocoa"
+    },
+    {
+      "id": "6",
+      "checked": false,
+      "item": "Candy"
+    },
+    {
+      "id": "7",
+      "checked": false,
+      "item": "Cucumbers"
     }
   ]
 }
